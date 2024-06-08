@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/se4t6q2i/x86",
+  "command": "/Users/zhangtao/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=i686-none-linux-android21 --sysroot=/Users/zhangtao/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dfmplayer_EXPORTS -I/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/ffmpeg/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -L/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/ffmpeg/libs/x86 -fno-limit-debug-info  -fPIC -o CMakeFiles/fmplayer.dir/native-lib.cpp.o -c /Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/native-lib.cpp",
+  "file": "/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/native-lib.cpp"
+}
+]

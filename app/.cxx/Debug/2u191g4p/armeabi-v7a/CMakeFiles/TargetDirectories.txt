@@ -1,0 +1,3 @@
+/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/2u191g4p/armeabi-v7a/CMakeFiles/fmplayer.dir
+/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/2u191g4p/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/2u191g4p/armeabi-v7a/CMakeFiles/rebuild_cache.dir

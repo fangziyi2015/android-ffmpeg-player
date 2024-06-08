@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/zhangtao/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/se4t6q2i/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/zhangtao/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/se4t6q2i/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "fmplayer::@6890427a1f51a3e7e1df": {
+      "artifactName": "fmplayer",
+      "abi": "x86",
+      "output": "/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/se4t6q2i/obj/x86/libfmplayer.so",
+      "runtimeFiles": []
+    }
+  }
+}

@@ -1,0 +1,215 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_library",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 15,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 8,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security   -L/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/ffmpeg/libs/armeabi-v7a -L/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/rtmp/libs/armeabi-v7a -O0 -fno-limit-debug-info  -fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "fmplayer_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/ffmpeg/include"
+				}
+			],
+			"language" : "CXX",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			],
+			"sysroot" : 
+			{
+				"path" : "/Users/zhangtao/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+			}
+		}
+	],
+	"id" : "fmplayer::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libgcc_real.a -Wl,--exclude-libs,libatomic.a -static-libstdc++ -Wl,--build-id -Wl,--fatal-warnings -Wl,--exclude-libs,libunwind.a -Wl,--no-undefined -Qunused-arguments",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--start-group",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lavcodec",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lavfilter",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lavformat",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lavutil",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lswresample",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lswscale",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-Wl,--end-group",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-landroid",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-llog",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lz",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lrtmp",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "-lOpenSLES",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-latomic -lm",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX",
+		"sysroot" : 
+		{
+			"path" : "/Users/zhangtao/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot"
+		}
+	},
+	"name" : "fmplayer",
+	"nameOnDisk" : "libfmplayer.so",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "FmPlayer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "JNICallbackHelper.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "native-lib.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "video_channel.cpp",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "SHARED_LIBRARY"
+}

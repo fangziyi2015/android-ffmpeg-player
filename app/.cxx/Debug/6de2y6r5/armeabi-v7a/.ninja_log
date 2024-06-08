@@ -1,0 +1,26 @@
+# ninja log v5
+0	306	1717848152	CMakeFiles/fmplayer.dir/JNICallbackHelper.cpp.o	85ba82d4fa65d7ea
+1	320	1717848152	CMakeFiles/fmplayer.dir/video_channel.cpp.o	657fbafea0a4eea1
+0	344	1717848152	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+1	489	1717848152	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d
+489	1314	1717848152	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+1	386	1717848251	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+386	1274	1717848252	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+2	279	1717849521	CMakeFiles/fmplayer.dir/JNICallbackHelper.cpp.o	85ba82d4fa65d7ea
+1	309	1717849521	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+2	456	1717849521	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d
+456	1342	1717849522	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+2	625	1717854453	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d
+1	664	1717854453	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+3	678	1717854453	CMakeFiles/fmplayer.dir/video_channel.cpp.o	657fbafea0a4eea1
+678	1539	1717854453	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+1	570	1717857015	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d
+1	620	1717857015	CMakeFiles/fmplayer.dir/video_channel.cpp.o	657fbafea0a4eea1
+1	602	1717857047	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+602	1545	1717857048	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+1	587	1717857144	CMakeFiles/fmplayer.dir/video_channel.cpp.o	657fbafea0a4eea1
+588	1528	1717857144	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d
+1	579	1717857472	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d
+1	609	1717857472	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+2	625	1717857472	CMakeFiles/fmplayer.dir/video_channel.cpp.o	657fbafea0a4eea1
+625	1553	1717857473	/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	55e12740a70e226d

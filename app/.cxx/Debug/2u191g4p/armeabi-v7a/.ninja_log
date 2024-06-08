@@ -1,0 +1,4 @@
+# ninja log v5
+0	110	1717847109023426732	CMakeFiles/fmplayer.dir/JNICallbackHelper.cpp.o	85ba82d4fa65d7ea
+0	208	1717847109119365381	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	79282c1093d859ef
+1	343	1717847109255001618	CMakeFiles/fmplayer.dir/native-lib.cpp.o	107f7eda4cd0152d

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <SurfaceView
+        android:id="@+id/surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+        android:id="@+id/tvStatusInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="12dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:text="状态信息" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

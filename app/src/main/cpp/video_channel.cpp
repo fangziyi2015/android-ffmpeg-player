@@ -11,12 +11,13 @@ void removeAVFrame(queue<AVFrame *> &q) {
 void removeAVPacket(queue<AVPacket *> &q) {
     while (!q.empty()) {
         AVPacket *packet = q.front();
-        if (packet->flags == AV_PKT_FLAG_KEY) {
-            LOGE("当前是关键帧，不能丢掉，重新获取\n")
-            continue;
+        if (packet->flags != AV_PKT_FLAG_KEY) {
+            BaseChannel::releaseAVPacket(&packet);
+            q.pop();
+        } else {
+            LOGE("当前是关键帧，不能丢掉，直接结束\n")
+            break;
         }
-        BaseChannel::releaseAVPacket(&packet);
-        q.pop();
     }
 }
 

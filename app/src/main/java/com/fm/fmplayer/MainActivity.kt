@@ -17,7 +17,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fmPlayer = FmPlayer().apply {
-            dataSource = File(Environment.getExternalStorageDirectory(),"trailer.mp4").absolutePath
+//            dataSource = File(Environment.getExternalStorageDirectory(),"trailer.mp4").absolutePath
+            // 直播测试地址
+            dataSource = "rtmp://liteavapp.qcloud.com/live/liteavdemoplayerstreamid"
             lifecycle.addObserver(this)
             prepareCallback = {
                 runOnUiThread {

@@ -32,3 +32,13 @@
 1	645	1717899646	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	cce1a057bb84f3e
 1	648	1717899646	CMakeFiles/fmplayer.dir/audio_channel.cpp.o	442de40355c26af
 648	1507	1717899647	/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	b44d346d2aa08431
+2	520	1717918531	CMakeFiles/fmplayer.dir/native-lib.cpp.o	ee0e5da497fa3912
+1	569	1717918531	CMakeFiles/fmplayer.dir/FmPlayer.cpp.o	cce1a057bb84f3e
+2	573	1717918531	CMakeFiles/fmplayer.dir/audio_channel.cpp.o	442de40355c26af
+573	1432	1717918532	/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	b44d346d2aa08431
+1	797	1717928824	CMakeFiles/fmplayer.dir/native-lib.cpp.o	ee0e5da497fa3912
+797	1875	1717928824	/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	b44d346d2aa08431
+1	777	1717929772	CMakeFiles/fmplayer.dir/native-lib.cpp.o	ee0e5da497fa3912
+777	1858	1717929772	/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	b44d346d2aa08431
+1	636	1717929990	CMakeFiles/fmplayer.dir/native-lib.cpp.o	ee0e5da497fa3912
+636	1615	1717929991	/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so	b44d346d2aa08431

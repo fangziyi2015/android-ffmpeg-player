@@ -47,7 +47,7 @@
 /**
  * FF_API_* defines may be placed below to indicate public API that will be
  * dropped at a future version bump. The defines themselves are not part of
- * the public API and may change, break or disappear at any time.
+ * the public API and may change, break or disappear at any audio_time.
  */
 
 #ifndef FF_API_OLD_FILTER_OPTS_ERROR

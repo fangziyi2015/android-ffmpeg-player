@@ -800,7 +800,7 @@ enum AVStreamParseType {
 typedef struct AVIndexEntry {
     int64_t pos;
     int64_t timestamp;        /**<
-                               * Timestamp in AVStream.time_base units, preferably the time from which on correctly decoded frames are available
+                               * Timestamp in AVStream.time_base units, preferably the audio_time from which on correctly decoded frames are available
                                * when seeking to this entry. That means preferable PTS on keyframe based formats.
                                * But demuxers can choose to store a different timestamp, if it is more convenient for the implementation or nothing better
                                * is known
@@ -834,7 +834,7 @@ typedef struct AVIndexEntry {
  * The stream is stored in the file as an attached picture/"cover art" (e.g.
  * APIC frame in ID3v2). The first (usually only) packet associated with it
  * will be returned among the first few packets read from the file unless
- * seeking takes place. It can also be accessed at any time in
+ * seeking takes place. It can also be accessed at any audio_time in
  * AVStream.attached_pic.
  */
 #define AV_DISPOSITION_ATTACHED_PIC      0x0400
@@ -887,7 +887,7 @@ typedef struct AVStream {
     void *priv_data;
 
     /**
-     * This is the fundamental unit of time (in seconds) in terms
+     * This is the fundamental unit of audio_time (in seconds) in terms
      * of which frame timestamps are represented.
      *
      * decoding: set by libavformat
@@ -901,7 +901,7 @@ typedef struct AVStream {
     AVRational time_base;
 
     /**
-     * Decoding: pts of the first frame of the stream in presentation order, in stream time base.
+     * Decoding: pts of the first frame of the stream in presentation order, in stream audio_time base.
      * Only set this if you are absolutely 100% sure that the value you set
      * it to really is the pts of the first frame.
      * This may be undefined (AV_NOPTS_VALUE).
@@ -911,7 +911,7 @@ typedef struct AVStream {
     int64_t start_time;
 
     /**
-     * Decoding: duration of the stream, in stream time base.
+     * Decoding: duration of the stream, in stream audio_time base.
      * If a source file does not specify a duration, but does specify
      * a bitrate, this value will be estimated from bitrate and file size.
      *
@@ -990,7 +990,7 @@ typedef struct AVStream {
      * This is the lowest framerate with which all timestamps can be
      * represented accurately (it is the least common multiple of all
      * framerates in the stream). Note, this value is just a guess!
-     * For example, if the time base is 1/90000 and all frames have either
+     * For example, if the audio_time base is 1/90000 and all frames have either
      * approximately 3600 or 1800 timer ticks, then r_frame_rate will be 50/1.
      */
     AVRational r_frame_rate;
@@ -1176,7 +1176,7 @@ typedef struct AVStream {
     int64_t mux_ts_offset;
 
     /**
-     * Internal data to check for wrapping of the time stamp
+     * Internal data to check for wrapping of the audio_time stamp
      */
     int64_t pts_wrap_reference;
 
@@ -1186,8 +1186,8 @@ typedef struct AVStream {
      * Defined by AV_PTS_WRAP_ values.
      *
      * If correction is enabled, there are two possibilities:
-     * If the first time stamp is near the wrap point, the wrap offset
-     * will be subtracted, which will create negative time stamps.
+     * If the first audio_time stamp is near the wrap point, the wrap offset
+     * will be subtracted, which will create negative audio_time stamps.
      * Otherwise the offset will be added.
      */
     int pts_wrap_behavior;
@@ -1300,8 +1300,8 @@ typedef struct AVProgram {
 
 typedef struct AVChapter {
     int id;                 ///< unique ID to identify the chapter
-    AVRational time_base;   ///< time base in which the start/end timestamps are specified
-    int64_t start, end;     ///< chapter start/end time in time_base units
+    AVRational time_base;   ///< audio_time base in which the start/end timestamps are specified
+    int64_t start, end;     ///< chapter start/end audio_time in time_base units
     AVDictionary *metadata;
 } AVChapter;
 
@@ -1485,7 +1485,7 @@ typedef struct AVFormatContext {
 #define AVFMT_FLAG_FLUSH_PACKETS    0x0200 ///< Flush the AVIOContext every packet.
 /**
  * When muxing, try to avoid writing any random/volatile data to the output.
- * This includes any random IDs, real-time timestamps/dates, muxer version, etc.
+ * This includes any random IDs, real-audio_time timestamps/dates, muxer version, etc.
  *
  * This flag is mainly intended for testing.
  */
@@ -1584,11 +1584,11 @@ typedef struct AVFormatContext {
     AVDictionary *metadata;
 
     /**
-     * Start time of the stream in real world time, in microseconds
+     * Start audio_time of the stream in real world audio_time, in microseconds
      * since the Unix epoch (00:00 1st January 1970). That is, pts=0 in the
-     * stream was captured at this real world time.
+     * stream was captured at this real world audio_time.
      * - muxing: Set by the caller before avformat_write_header(). If set to
-     *           either 0 or AV_NOPTS_VALUE, then the current wall-time will
+     *           either 0 or AV_NOPTS_VALUE, then the current wall-audio_time will
      *           be used.
      * - demuxing: Set by libavformat. AV_NOPTS_VALUE if unknown. Note that
      *             the value may become known after some number of frames
@@ -1692,7 +1692,7 @@ typedef struct AVFormatContext {
     int audio_preload;
 
     /**
-     * Max chunk time in microseconds.
+     * Max chunk audio_time in microseconds.
      * Note, not all formats support this and unpredictable things may happen if it is used when not supported.
      * - encoding: Set by user
      * - decoding: unused
@@ -2028,7 +2028,7 @@ typedef struct AVPacketList {
 unsigned avformat_version(void);
 
 /**
- * Return the libavformat build-time configuration.
+ * Return the libavformat build-audio_time configuration.
  */
 const char *avformat_configuration(void);
 
@@ -2073,7 +2073,7 @@ int avformat_network_init(void);
 
 /**
  * Undo the initialization done by avformat_network_init. Call it only
- * once for each time you called avformat_network_init.
+ * once for each audio_time you called avformat_network_init.
  */
 int avformat_network_deinit(void);
 
@@ -2264,7 +2264,7 @@ ff_const59 AVInputFormat *av_probe_input_format2(ff_const59 AVProbeData *pd, int
 ff_const59 AVInputFormat *av_probe_input_format3(ff_const59 AVProbeData *pd, int is_opened, int *score_ret);
 
 /**
- * Probe a bytestream to determine the input format. Each time a probe returns
+ * Probe a bytestream to determine the input format. Each audio_time a probe returns
  * with a score that is too low, the probe buffer size is increased and another
  * attempt is made. When the maximum probe size is reached, the input format
  * with the highest score is returned.
@@ -2333,7 +2333,7 @@ int av_demuxer_open(AVFormatContext *ic);
  *       options being non-empty at return is a perfectly normal behavior.
  *
  * @todo Let the user decide somehow what information is needed so that
- *       we do not waste time getting stuff the user does not need.
+ *       we do not waste audio_time getting stuff the user does not need.
  */
 int avformat_find_stream_info(AVFormatContext *ic, AVDictionary **options);
 
@@ -2441,7 +2441,7 @@ int av_seek_frame(AVFormatContext *s, int stream_index, int64_t timestamp,
  * If flags contain AVSEEK_FLAG_BACKWARD, it is ignored.
  *
  * @param s media file handle
- * @param stream_index index of the stream which is used as time base reference
+ * @param stream_index index of the stream which is used as audio_time base reference
  * @param min_ts smallest acceptable timestamp
  * @param ts target timestamp
  * @param max_ts largest acceptable timestamp
@@ -2449,7 +2449,7 @@ int av_seek_frame(AVFormatContext *s, int stream_index, int64_t timestamp,
  * @return >=0 on success, error code otherwise
  *
  * @note This is part of the new seek API which is still under construction.
- *       Thus do not use this yet. It may change at any time, do not expect
+ *       Thus do not use this yet. It may change at any audio_time, do not expect
  *       ABI compatibility yet!
  */
 int avformat_seek_file(AVFormatContext *s, int stream_index, int64_t min_ts, int64_t ts, int64_t max_ts, int flags);
@@ -2564,7 +2564,7 @@ int avformat_init_output(AVFormatContext *s, AVDictionary **options);
  *            ownership of the packet passed to it (though some muxers may make
  *            an internal reference to the input packet).
  *            <br>
- *            This parameter can be NULL (at any time, not just at the end), in
+ *            This parameter can be NULL (at any audio_time, not just at the end), in
  *            order to immediately flush data buffered within the muxer, for
  *            muxers that buffer up data internally before writing it to the
  *            output.
@@ -2610,7 +2610,7 @@ int av_write_frame(AVFormatContext *s, AVPacket *pkt);
  *            this function returns. If the packet is not reference-counted,
  *            libavformat will make a copy.
  *            <br>
- *            This parameter can be NULL (at any time, not just at the end), to
+ *            This parameter can be NULL (at any audio_time, not just at the end), to
  *            flush the interleaving queues.
  *            <br>
  *            Packet's @ref AVPacket.stream_index "stream_index" field must be
@@ -2709,12 +2709,12 @@ enum AVCodecID av_guess_codec(ff_const59 AVOutputFormat *fmt, const char *short_
  * Get timing information for the data currently output.
  * The exact meaning of "currently output" depends on the format.
  * It is mostly relevant for devices that have an internal buffer and/or
- * work in real time.
+ * work in real audio_time.
  * @param s          media file handle
  * @param stream     stream in the media file
  * @param[out] dts   DTS of the last packet output for the stream, in stream
  *                   time_base units
- * @param[out] wall  absolute time when that packet whas output,
+ * @param[out] wall  absolute audio_time when that packet whas output,
  *                   in microsecond
  * @return  0 if OK, AVERROR(ENOSYS) if the format does not support it
  * Note: some formats or devices may not allow to measure dts and wall
@@ -2839,7 +2839,7 @@ int av_index_search_timestamp(AVStream *st, int64_t timestamp, int flags);
  * Add an index entry into a sorted list. Update the entry if the list
  * already contains it.
  *
- * @param timestamp timestamp in the time base of the given stream
+ * @param timestamp timestamp in the audio_time base of the given stream
  */
 int av_add_index_entry(AVStream *st, int64_t pos, int64_t timestamp,
                        int size, int distance, int flags);
@@ -2875,7 +2875,7 @@ void av_url_split(char *proto,         int proto_size,
 /**
  * Print detailed information about the input or output format, such as
  * duration, bitrate, streams, container, programs, metadata, side data,
- * codec and time base.
+ * codec and audio_time base.
  *
  * @param ic        the context to analyze
  * @param index     index of the stream to dump information about

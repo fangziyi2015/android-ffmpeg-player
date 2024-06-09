@@ -147,11 +147,11 @@ void av_bprint_append_data(AVBPrint *buf, const char *data, unsigned size);
 
 struct tm;
 /**
- * Append a formatted date and time to a print buffer.
+ * Append a formatted date and audio_time to a print buffer.
  *
  * param buf  bprint buffer to use
- * param fmt  date and time format string, see strftime()
- * param tm   broken-down time structure to translate
+ * param fmt  date and audio_time format string, see strftime()
+ * param tm   broken-down audio_time structure to translate
  *
  * @note due to poor design of the standard strftime function, it may
  * produce poor results if the format string expands to a very long text and

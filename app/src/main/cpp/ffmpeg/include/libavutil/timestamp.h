@@ -54,7 +54,7 @@ static inline char *av_ts_make_string(char *buf, int64_t ts)
 #define av_ts2str(ts) av_ts_make_string((char[AV_TS_MAX_STRING_SIZE]){0}, ts)
 
 /**
- * Fill the provided buffer with a string containing a timestamp time
+ * Fill the provided buffer with a string containing a timestamp audio_time
  * representation.
  *
  * @param buf a buffer with size in bytes of at least AV_TS_MAX_STRING_SIZE

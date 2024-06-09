@@ -1,8 +1,8 @@
 #include "audio_channel.h"
 
-AudioChannel::AudioChannel(int streamIndex, AVCodecContext *codecContext)
+AudioChannel::AudioChannel(int streamIndex, AVCodecContext *codecContext, AVRational time_base)
         : BaseChannel(streamIndex,
-                      codecContext) {
+                      codecContext, time_base) {
 
     out_audio_channel_num = av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO);
     out_sample_size = av_get_bytes_per_sample(AVSampleFormat::AV_SAMPLE_FMT_S16);
@@ -300,6 +300,11 @@ SLint32 AudioChannel::get_pcm_data_size() {
         );
 
         pcm_data_size = sample_per_channel * out_audio_channel_num * out_sample_size;
+
+        // 在这里计算音频的time_base
+        audio_time = frame->best_effort_timestamp * av_q2d(time_base);
+        LOGI("音频的时间戳：%lf\n", audio_time)
+
         break;
     }
     av_frame_unref(frame);
@@ -308,12 +313,12 @@ SLint32 AudioChannel::get_pcm_data_size() {
 }
 
 AudioChannel::~AudioChannel() {
-    if (out_buffer){
+    if (out_buffer) {
         ::free(out_buffer);
         out_buffer = nullptr;
     }
 
-    if (swr_ctx){
+    if (swr_ctx) {
         swr_free(&swr_ctx);
         swr_ctx = nullptr;
     }

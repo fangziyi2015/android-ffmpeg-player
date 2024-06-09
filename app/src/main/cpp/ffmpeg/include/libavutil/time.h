@@ -24,27 +24,27 @@
 #include <stdint.h>
 
 /**
- * Get the current time in microseconds.
+ * Get the current audio_time in microseconds.
  */
 int64_t av_gettime(void);
 
 /**
- * Get the current time in microseconds since some unspecified starting point.
- * On platforms that support it, the time comes from a monotonic clock
- * This property makes this time source ideal for measuring relative time.
+ * Get the current audio_time in microseconds since some unspecified starting point.
+ * On platforms that support it, the audio_time comes from a monotonic clock
+ * This property makes this audio_time source ideal for measuring relative audio_time.
  * The returned values may not be monotonic on platforms where a monotonic
  * clock is not available.
  */
 int64_t av_gettime_relative(void);
 
 /**
- * Indicates with a boolean result if the av_gettime_relative() time source
+ * Indicates with a boolean result if the av_gettime_relative() audio_time source
  * is monotonic.
  */
 int av_gettime_relative_is_monotonic(void);
 
 /**
- * Sleep for a period of time.  Although the duration is expressed in
+ * Sleep for a period of audio_time.  Although the duration is expressed in
  * microseconds, the actual delay may be rounded to the precision of the
  * system timer.
  *

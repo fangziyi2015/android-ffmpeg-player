@@ -45,7 +45,7 @@
 unsigned swscale_version(void);
 
 /**
- * Return the libswscale build-time configuration.
+ * Return the libswscale build-audio_time configuration.
  */
 const char *swscale_configuration(void);
 

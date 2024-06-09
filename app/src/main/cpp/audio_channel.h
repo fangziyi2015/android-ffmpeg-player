@@ -29,15 +29,17 @@ public:
     SwrContext *swr_ctx = nullptr;
 
     SLObjectItf audio_engine = nullptr;
-    SLEngineItf audio_engine_ift= nullptr;
+    SLEngineItf audio_engine_ift = nullptr;
 
-    SLObjectItf outputMixInterface= nullptr;
-    SLObjectItf audioPlayer= nullptr;
-    SLPlayItf playerInterface= nullptr;
-    SLAndroidSimpleBufferQueueItf playerQueueInterface= nullptr;
+    SLObjectItf outputMixInterface = nullptr;
+    SLObjectItf audioPlayer = nullptr;
+    SLPlayItf playerInterface = nullptr;
+    SLAndroidSimpleBufferQueueItf playerQueueInterface = nullptr;
+
+    double audio_time;
 
 public:
-    AudioChannel(int streamIndex, AVCodecContext *codecContext);
+    AudioChannel(int streamIndex, AVCodecContext *codecContext, AVRational time_base);
 
     ~AudioChannel();
 

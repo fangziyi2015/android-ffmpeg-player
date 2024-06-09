@@ -173,12 +173,12 @@ unsigned avutil_version(void);
 /**
  * Return an informative version string. This usually is the actual release
  * version number or a git commit description. This string has no fixed format
- * and can change any time. It should never be parsed by code.
+ * and can change any audio_time. It should never be parsed by code.
  */
 const char *av_version_info(void);
 
 /**
- * Return the libavutil build-time configuration.
+ * Return the libavutil build-audio_time configuration.
  */
 const char *avutil_configuration(void);
 
@@ -248,13 +248,13 @@ const char *av_get_media_type_string(enum AVMediaType media_type);
 #define AV_NOPTS_VALUE          ((int64_t)UINT64_C(0x8000000000000000))
 
 /**
- * Internal time base represented as integer
+ * Internal audio_time base represented as integer
  */
 
 #define AV_TIME_BASE            1000000
 
 /**
- * Internal time base represented as fractional value
+ * Internal audio_time base represented as fractional value
  */
 
 #define AV_TIME_BASE_Q          (AVRational){1, AV_TIME_BASE}
@@ -339,7 +339,7 @@ unsigned av_int_list_length_for_size(unsigned elsize,
 FILE *av_fopen_utf8(const char *path, const char *mode);
 
 /**
- * Return the fractional representation of the internal time base.
+ * Return the fractional representation of the internal audio_time base.
  */
 AVRational av_get_time_base_q(void);
 

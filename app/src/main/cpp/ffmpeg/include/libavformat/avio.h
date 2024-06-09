@@ -516,7 +516,7 @@ int avio_put_str16be(AVIOContext *s, const char *str);
  *
  * Zero-length ranges are omitted from the output.
  *
- * @param time the stream time the current bytestream pos corresponds to
+ * @param time the stream audio_time the current bytestream pos corresponds to
  *             (in AV_TIME_BASE units), or AV_NOPTS_VALUE if unknown or not
  *             applicable
  * @param type the kind of data written starting at the current pos

@@ -383,7 +383,7 @@ typedef struct AVFrame {
     AVRational sample_aspect_ratio;
 
     /**
-     * Presentation timestamp in time_base units (time when frame should be shown to user).
+     * Presentation timestamp in time_base units (audio_time when frame should be shown to user).
      */
     int64_t pts;
 
@@ -398,7 +398,7 @@ typedef struct AVFrame {
 
     /**
      * DTS copied from the AVPacket that triggered returning this frame. (if frame threading isn't used)
-     * This is also the Presentation time of this AVFrame calculated from
+     * This is also the Presentation audio_time of this AVFrame calculated from
      * only AVPacket.dts values without pts values.
      */
     int64_t pkt_dts;
@@ -455,7 +455,7 @@ typedef struct AVFrame {
      * reordered opaque 64 bits (generally an integer or a double precision float
      * PTS but can be anything).
      * The user sets AVCodecContext.reordered_opaque to represent the input at
-     * that time,
+     * that audio_time,
      * the decoder reorders values as needed and sets AVFrame.reordered_opaque
      * to exactly one of the values provided by the user through AVCodecContext.reordered_opaque
      */
@@ -552,7 +552,7 @@ typedef struct AVFrame {
     enum AVChromaLocation chroma_location;
 
     /**
-     * frame timestamp estimated using various heuristics, in stream time base
+     * frame timestamp estimated using various heuristics, in stream audio_time base
      * - encoding: unused
      * - decoding: set by libavcodec, read by user.
      */

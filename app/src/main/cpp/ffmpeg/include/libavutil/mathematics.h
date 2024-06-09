@@ -21,7 +21,7 @@
 /**
  * @file
  * @addtogroup lavu_math
- * Mathematical utilities for working with timestamp and time base.
+ * Mathematical utilities for working with timestamp and audio_time base.
  */
 
 #ifndef AVUTIL_MATHEMATICS_H
@@ -161,7 +161,7 @@ int64_t av_rescale_q_rnd(int64_t a, AVRational bq, AVRational cq,
                          enum AVRounding rnd) av_const;
 
 /**
- * Compare two timestamps each in its own time base.
+ * Compare two timestamps each in its own audio_time base.
  *
  * @return One of the following values:
  *         - -1 if `ts_a` is before `ts_b`
@@ -198,16 +198,16 @@ int64_t av_compare_mod(uint64_t a, uint64_t b, uint64_t mod);
  * Rescale a timestamp while preserving known durations.
  *
  * This function is designed to be called per audio packet to scale the input
- * timestamp to a different time base. Compared to a simple av_rescale_q()
+ * timestamp to a different audio_time base. Compared to a simple av_rescale_q()
  * call, this function is robust against possible inconsistent frame durations.
  *
  * The `last` parameter is a state variable that must be preserved for all
  * subsequent calls for the same stream. For the first call, `*last` should be
  * initialized to #AV_NOPTS_VALUE.
  *
- * @param[in]     in_tb    Input time base
+ * @param[in]     in_tb    Input audio_time base
  * @param[in]     in_ts    Input timestamp
- * @param[in]     fs_tb    Duration time base; typically this is finer-grained
+ * @param[in]     fs_tb    Duration audio_time base; typically this is finer-grained
  *                         (greater) than `in_tb` and `out_tb`
  * @param[in]     duration Duration till the next call to this function (i.e.
  *                         duration of the current packet/frame)
@@ -228,7 +228,7 @@ int64_t av_rescale_delta(AVRational in_tb, int64_t in_ts,  AVRational fs_tb, int
  * no accumulation of rounding errors occurs.
  *
  * @param[in] ts     Input timestamp
- * @param[in] ts_tb  Input timestamp time base
+ * @param[in] ts_tb  Input timestamp audio_time base
  * @param[in] inc    Value to be added
  * @param[in] inc_tb Time base of `inc`
  */

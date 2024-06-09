@@ -35,7 +35,7 @@
 enum AVTimecodeFlag {
     AV_TIMECODE_FLAG_DROPFRAME      = 1<<0, ///< timecode is drop frame
     AV_TIMECODE_FLAG_24HOURSMAX     = 1<<1, ///< timecode wraps after 24 hours
-    AV_TIMECODE_FLAG_ALLOWNEGATIVE  = 1<<2, ///< negative time values are allowed
+    AV_TIMECODE_FLAG_ALLOWNEGATIVE  = 1<<2, ///< negative audio_time values are allowed
 };
 
 typedef struct {
@@ -46,7 +46,7 @@ typedef struct {
 } AVTimecode;
 
 /**
- * Adjust frame number for NTSC drop frame time code.
+ * Adjust frame number for NTSC drop frame audio_time code.
  *
  * @param framenum frame number to adjust
  * @param fps      frame per second, 30 or 60

@@ -80,7 +80,7 @@
  * Note that the samples may get buffered in swr if you provide insufficient
  * output space or if sample rate conversion is done, which requires "future"
  * samples. Samples that do not require future input can be retrieved at any
- * time by using swr_convert() (in_count can be set to 0).
+ * audio_time by using swr_convert() (in_count can be set to 0).
  * At the end of conversion the resampling buffer can be flushed by calling
  * swr_convert() with NULL in and 0 in_count.
  *
@@ -88,7 +88,7 @@
  * @ref lavu_sampmanip "samples manipulation" API, including av_samples_alloc()
  * function used in the following example.
  *
- * The delay between input and output, can at any time be found by using
+ * The delay between input and output, can at any audio_time be found by using
  * swr_get_delay().
  *
  * The following code demonstrates the conversion loop assuming the parameters
@@ -490,24 +490,24 @@ int swr_get_out_samples(struct SwrContext *s, int in_samples);
 /**
  * Return the @ref LIBSWRESAMPLE_VERSION_INT constant.
  *
- * This is useful to check if the build-time libswresample has the same version
- * as the run-time one.
+ * This is useful to check if the build-audio_time libswresample has the same version
+ * as the run-audio_time one.
  *
  * @returns     the unsigned int-typed version
  */
 unsigned swresample_version(void);
 
 /**
- * Return the swr build-time configuration.
+ * Return the swr build-audio_time configuration.
  *
- * @returns     the build-time @c ./configure flags
+ * @returns     the build-audio_time @c ./configure flags
  */
 const char *swresample_configuration(void);
 
 /**
  * Return the swr license.
  *
- * @returns     the license of libswresample, determined at build-time
+ * @returns     the license of libswresample, determined at build-audio_time
  */
 const char *swresample_license(void);
 

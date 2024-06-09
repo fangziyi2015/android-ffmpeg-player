@@ -77,7 +77,7 @@
  *     av_hash_update(ctx, data, size);
  * }
  *
- * // Now we have no more data, so it is time to finalize the hash and get the
+ * // Now we have no more data, so it is audio_time to finalize the hash and get the
  * // output. But we need to first allocate an output buffer. Note that you can
  * // use any memory allocation function, including malloc(), not just
  * // av_malloc().
@@ -152,7 +152,7 @@ const char *av_hash_get_name(const struct AVHashContext *ctx);
  * so, will not be considered an ABI change. To prevent your code from
  * overflowing a buffer, either dynamically allocate the output buffer with
  * av_hash_get_size(), or limit your use of the Hashing API to hashes that are
- * already in FFmpeg during the time of compilation.
+ * already in FFmpeg during the audio_time of compilation.
  */
 #define AV_HASH_MAX_SIZE 64
 

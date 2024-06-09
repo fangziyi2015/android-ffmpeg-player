@@ -55,7 +55,7 @@
 unsigned avfilter_version(void);
 
 /**
- * Return the libavfilter build-time configuration.
+ * Return the libavfilter build-audio_time configuration.
  */
 const char *avfilter_configuration(void);
 
@@ -298,7 +298,7 @@ typedef struct AVFilter {
      * @param arg    the argument for the command
      * @param res    a buffer with size res_size where the filter(s) can return a response. This must not change when the command is not supported.
      * @param flags  if AVFILTER_CMD_FLAG_FAST is set and the command would be
-     *               time consuming then a filter should treat it like an unsupported command
+     *               audio_time consuming then a filter should treat it like an unsupported command
      *
      * @returns >=0 on success otherwise an error code.
      *          AVERROR(ENOSYS) on unsupported commands
@@ -456,7 +456,7 @@ struct AVFilterLink {
     int format;                 ///< agreed upon media format
 
     /**
-     * Define the time base used by the PTS of the frames/samples
+     * Define the audio_time base used by the PTS of the frames/samples
      * which will pass through this link.
      * During the configuration stage, each filter is supposed to
      * change only the output timebase, while the timebase of the
@@ -1123,7 +1123,7 @@ int avfilter_graph_send_command(AVFilterGraph *graph, const char *target, const 
  *               which will send the command to all matching filters.
  * @param cmd    the command to sent, for handling simplicity all commands must be alphanumeric only
  * @param arg    the argument for the command
- * @param ts     time at which the command should be sent to the filter
+ * @param ts     audio_time at which the command should be sent to the filter
  *
  * @note As this executes commands after this function returns, no return code
  *       from the filter is provided, also AVFILTER_CMD_FLAG_ONE is not supported.

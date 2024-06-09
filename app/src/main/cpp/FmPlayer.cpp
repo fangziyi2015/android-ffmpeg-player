@@ -45,6 +45,9 @@ void FmPlayer::start() {
     isPlaying = PLAYING;
 
     if (video_channel) {
+        if (audio_channel) {
+            video_channel->setAudioChannel(audio_channel);
+        }
         video_channel->start();
     }
 
@@ -140,13 +143,26 @@ void FmPlayer::_prepare() {
             return;
         }
 
+        // 获取time_base
+        AVRational time_base = stream->time_base;
+
         if (codec->type == AVMediaType::AVMEDIA_TYPE_VIDEO) {// 视频
             LOGD("当前类型是 视频流\n")
-            video_channel = new VideoChannel(stream_index, codecContext);
+            // 需要过滤掉图片流，有些比较特殊的视频的第一个画面是一个图片流，所以需要过滤掉
+            if (stream->disposition == AV_DISPOSITION_ATTACHED_PIC) {
+                LOGE("当前流类型是图片流，需要过滤掉\n")
+                continue;
+            }
+            // 视频流需要获取到fps,fps是视频独有的特性
+            AVRational fps_rational = stream->avg_frame_rate;
+            // 需要转成int类型
+            int fps = static_cast<int>(av_q2d(fps_rational));
+            LOGI("视频的fps:%d\n", fps)
+            video_channel = new VideoChannel(stream_index, codecContext, time_base, fps);
             video_channel->setRenderCallback(renderCallback);
         } else if (codec->type == AVMediaType::AVMEDIA_TYPE_AUDIO) {// 音频
             LOGD("当前类型是 音频流\n")
-            audio_channel = new AudioChannel(stream_index, codecContext);
+            audio_channel = new AudioChannel(stream_index, codecContext, time_base);
         }
     }// for end
 

@@ -21,10 +21,16 @@ public:
 
     bool isPlaying = STOP;
 
-public:
+    // 需要同步，同步需要时间基 time_base
+    AVRational time_base;
 
-    BaseChannel(int streamIndex, AVCodecContext *codecContext) : stream_index(streamIndex),
-                                                                 codecContext(codecContext) {
+
+public:
+    BaseChannel(int streamIndex,
+                AVCodecContext *codecContext,
+                AVRational time_base) : stream_index(streamIndex),
+                                        codecContext(codecContext),
+                                        time_base(time_base) {
 
         packets.setReleaseCallback(releaseAVPacket);
         frames.setReleaseCallback(releaseAVFrame);

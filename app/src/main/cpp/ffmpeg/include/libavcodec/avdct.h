@@ -24,7 +24,7 @@
 /**
  * AVDCT context.
  * @note function pointers can be NULL if the specific features have been
- *       disabled at build time.
+ *       disabled at build audio_time.
  */
 typedef struct AVDCT {
     const AVClass *av_class;

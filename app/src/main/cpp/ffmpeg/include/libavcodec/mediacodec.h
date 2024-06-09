@@ -86,7 +86,7 @@ typedef struct MediaCodecBuffer AVMediaCodecBuffer;
 int av_mediacodec_release_buffer(AVMediaCodecBuffer *buffer, int render);
 
 /**
- * Release a MediaCodec buffer and render it at the given time to the surface
+ * Release a MediaCodec buffer and render it at the given audio_time to the surface
  * that is associated with the decoder. The timestamp must be within one second
  * of the current java/lang/System#nanoTime() (which is implemented using
  * CLOCK_MONOTONIC on Android). See the Android MediaCodec documentation

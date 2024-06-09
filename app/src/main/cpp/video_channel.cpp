@@ -1,10 +1,32 @@
 #include "video_channel.h"
 
+void removeAVFrame(queue<AVFrame *> &q) {
+    if (!q.empty()) {
+        AVFrame *frame = q.front();
+        BaseChannel::releaseAVFrame(&frame);
+        q.pop();
+    }
+}
 
-VideoChannel::VideoChannel(int streamIndex, AVCodecContext *codecContext)
+void removeAVPacket(queue<AVPacket *> &q) {
+    while (!q.empty()) {
+        AVPacket *packet = q.front();
+        if (packet->flags == AV_PKT_FLAG_KEY) {
+            LOGE("当前是关键帧，不能丢掉，重新获取\n")
+            continue;
+        }
+        BaseChannel::releaseAVPacket(&packet);
+        q.pop();
+    }
+}
+
+VideoChannel::VideoChannel(int streamIndex, AVCodecContext *codecContext, AVRational time_base,
+                           int fps)
         : BaseChannel(streamIndex,
-                      codecContext) {
+                      codecContext, time_base), fps(fps) {
 
+    frames.setSyncCallback(removeAVFrame);
+    packets.setSyncCallback(removeAVPacket);
 }
 
 void *video_start_task(void *ptr) {
@@ -43,7 +65,7 @@ void VideoChannel::_video_start() {
         ret = avcodec_send_packet(codecContext, packet);
         if (ret) {
             LOGE("数据发送失败，msg:%s\n", av_err2str(ret))
-            continue;
+            break;
         }
         AVFrame *frame = av_frame_alloc();
         ret = avcodec_receive_frame(codecContext, frame);
@@ -52,6 +74,9 @@ void VideoChannel::_video_start() {
             continue;
         } else if (ret) {
             LOGI("视频帧数据获取失败，退出循环\n")
+            if (frame) {
+                releaseAVFrame(&frame);
+            }
             break;
         }
 
@@ -59,7 +84,6 @@ void VideoChannel::_video_start() {
         av_packet_unref(packet);
         releaseAVPacket(&packet);
     }
-    isPlaying = STOP;
     av_packet_unref(packet);
     releaseAVPacket(&packet);
 }
@@ -72,7 +96,7 @@ void VideoChannel::_video_play() {
             codecContext->width,
             codecContext->height,
             AV_PIX_FMT_RGBA,
-            0,
+            SWS_BILINEAR,
             nullptr,
             nullptr,
             nullptr
@@ -107,6 +131,32 @@ void VideoChannel::_video_play() {
                 dst_linesize
         );
 
+        // extra_delay = repeat_pict / (2*fps)
+        double extra_delay = frame->repeat_pict / (2 * fps);
+        // 每帧间隔时间 1.0 / fps ，假若fps25 则 1.0 / 25 = 0.04
+        double real_delay = extra_delay + 1.0 / fps;
+
+        // 在这里做同步的工作
+        double video_time = frame->best_effort_timestamp * av_q2d(time_base);
+        double time_diff = video_time - audio_channel->audio_time;
+        if (time_diff > 0) {
+            // 视频时间 > 音频时间 ，这种情况就要睡眠等待音频
+            if (time_diff > 1) {
+                LOGI("时间差很大\n")
+                av_usleep(real_delay * 2.0 * 1000000);
+            } else {
+                av_usleep((real_delay + time_diff) * 1000000);
+            }
+        } else if (time_diff < 0) {
+            // 视频时间 < 音频时间 ，这种情况就需要丢帧
+            if (fabs(time_diff) <= 0.05) {
+                frames.sync();
+                continue;
+            }
+        } else {
+            LOGI("百分百同步")
+        }
+
         if (renderCallback) {
             renderCallback(dst_data[0], dst_linesize[0], codecContext->width, codecContext->height);
         }
@@ -116,12 +166,18 @@ void VideoChannel::_video_play() {
     }
 
     isPlaying = STOP;
-    sws_freeContext(swsContext);
     av_frame_unref(frame);
-    av_free(&dst_data[0]);
     releaseAVFrame(&frame);
+    if (dst_data[0]) {
+        av_free(&dst_data[0]);
+    }
+    sws_freeContext(swsContext);
 }
 
 void VideoChannel::setRenderCallback(RenderCallback _renderCallback) {
     this->renderCallback = _renderCallback;
+}
+
+void VideoChannel::setAudioChannel(AudioChannel *_audio_channel) {
+    this->audio_channel = _audio_channel;
 }

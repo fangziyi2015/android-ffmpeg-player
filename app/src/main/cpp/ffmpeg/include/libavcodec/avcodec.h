@@ -172,13 +172,13 @@
  *
  * A codec is not allowed to return AVERROR(EAGAIN) for both sending and receiving. This
  * would be an invalid state, which could put the codec user into an endless
- * loop. The API has no concept of time either: it cannot happen that trying to
+ * loop. The API has no concept of audio_time either: it cannot happen that trying to
  * do avcodec_send_packet() results in AVERROR(EAGAIN), but a repeated call 1 second
  * later accepts the packet (with no other receive/flush API calls involved).
- * The API is a strict state machine, and the passage of time is not supposed
+ * The API is a strict state machine, and the passage of audio_time is not supposed
  * to influence it. Some timing-dependent behavior might still be deemed
  * acceptable in certain cases. But it must never result in both send/receive
- * returning EAGAIN at the same time at any point. It must also absolutely be
+ * returning EAGAIN at the same audio_time at any point. It must also absolutely be
  * avoided that the current state is "unstable" and can "flip-flop" between
  * the send/receive APIs allowing progress. For example, it's not allowed that
  * the codec randomly decides that it actually wants to consume a packet now
@@ -1012,7 +1012,7 @@ typedef struct RcOverride{
 
 /**
  * Codec can output multiple frames per AVPacket
- * Normally demuxers return one frame at a time, demuxers which do not do
+ * Normally demuxers return one frame at a audio_time, demuxers which do not do
  * are connected to a parser to split what they return into proper frames.
  * This flag is reserved to the very rare category of codecs which have a
  * bitstream that cannot be split into frames without timeconsuming
@@ -1161,8 +1161,8 @@ typedef struct AVCPBProperties {
     int buffer_size;
 
     /**
-     * The delay between the time the packet this structure is associated with
-     * is received and the time when it should be decoded, in periods of a 27MHz
+     * The delay between the audio_time the packet this structure is associated with
+     * is received and the audio_time when it should be decoded, in periods of a 27MHz
      * clock.
      *
      * UINT64_MAX when unknown or unspecified.
@@ -1459,7 +1459,7 @@ typedef struct AVPacket {
      */
     AVBufferRef *buf;
     /**
-     * Presentation timestamp in AVStream->time_base units; the time at which
+     * Presentation timestamp in AVStream->time_base units; the audio_time at which
      * the decompressed packet will be presented to the user.
      * Can be AV_NOPTS_VALUE if it is not stored in the file.
      * pts MUST be larger or equal to dts as presentation cannot happen before
@@ -1469,7 +1469,7 @@ typedef struct AVPacket {
      */
     int64_t pts;
     /**
-     * Decompression timestamp in AVStream->time_base units; the time at which
+     * Decompression timestamp in AVStream->time_base units; the audio_time at which
      * the packet is decompressed.
      * Can be AV_NOPTS_VALUE if it is not stored in the file.
      */
@@ -1667,7 +1667,7 @@ typedef struct AVCodecContext {
     int extradata_size;
 
     /**
-     * This is the fundamental unit of time (in seconds) in terms
+     * This is the fundamental unit of audio_time (in seconds) in terms
      * of which frame timestamps are represented. For fixed-fps content,
      * timebase should be 1/framerate and timestamp increments should be
      * identically 1.
@@ -1677,7 +1677,7 @@ typedef struct AVCodecContext {
      *
      * Like containers, elementary streams also can store timestamps, 1/time_base
      * is the unit in which these timestamps are specified.
-     * As example of such codec time base see ISO/IEC 14496-2:2001(E)
+     * As example of such codec audio_time base see ISO/IEC 14496-2:2001(E)
      * vop_time_increment_resolution and fixed_vop_rate
      * (fixed_vop_rate == 0 implies that it is different from the framerate)
      *
@@ -1688,7 +1688,7 @@ typedef struct AVCodecContext {
     AVRational time_base;
 
     /**
-     * For some codecs, the time base is closer to the field rate than the frame rate.
+     * For some codecs, the audio_time base is closer to the field rate than the frame rate.
      * Most notably, H.264 and MPEG-2 specify time_base as half of frame duration
      * if no telecine is used ...
      *
@@ -1780,7 +1780,7 @@ typedef struct AVCodecContext {
      * all codecs can do that. You must check the codec capabilities
      * beforehand.
      * When multithreading is used, it may be called from multiple threads
-     * at the same time; threads might draw different parts of the same AVFrame,
+     * at the same audio_time; threads might draw different parts of the same AVFrame,
      * or multiple AVFrames, and there is no guarantee that slices will be drawn
      * in order.
      * The function is also used by hardware acceleration APIs.
@@ -2043,7 +2043,7 @@ typedef struct AVCodecContext {
     int slice_flags;
 #define SLICE_FLAG_CODED_ORDER    0x0001 ///< draw_horiz_band() is called in coded order instead of display
 #define SLICE_FLAG_ALLOW_FIELD    0x0002 ///< allow draw_horiz_band() with field slices (MPEG-2 field pics)
-#define SLICE_FLAG_ALLOW_PLANE    0x0004 ///< allow draw_horiz_band() with 1 component at a time (SVQ1)
+#define SLICE_FLAG_ALLOW_PLANE    0x0004 ///< allow draw_horiz_band() with 1 component at a audio_time (SVQ1)
 
     /**
      * macroblock decision mode
@@ -2397,7 +2397,7 @@ typedef struct AVCodecContext {
 
     /* - encoding parameters */
     float qcompress;  ///< amount of qscale change between easy & hard scenes (0.0-1.0)
-    float qblur;      ///< amount of qscale smoothing over time (0.0-1.0)
+    float qblur;      ///< amount of qscale smoothing over audio_time (0.0-1.0)
 
     /**
      * minimum quantizer
@@ -2532,7 +2532,7 @@ typedef struct AVCodecContext {
      * @deprecated unused
      */
     /* The RTP callback: This function is called    */
-    /* every time the encoder has a packet to send. */
+    /* every audio_time the encoder has a packet to send. */
     /* It depends on the encoder if the data starts */
     /* with a Start Code (it should). H.263 does.   */
     /* mb_nb contains the number of macroblocks     */
@@ -2875,7 +2875,7 @@ typedef struct AVCodecContext {
      * @param ret return values of executed functions, must have space for "count" values. May be NULL.
      * @param func function that will be called count times, with jobnr from 0 to count-1.
      *             threadnr will be in the range 0 to c->thread_count-1 < MAX_THREADS and so that no
-     *             two instances of func executing at the same time will have the same threadnr.
+     *             two instances of func executing at the same audio_time will have the same threadnr.
      * @return always 0 currently, but code should handle a future improvement where when any call to func
      *         returns < 0 no further calls to func may be done and < 0 is returned.
      * - encoding: Set by libavcodec, user can override.
@@ -3556,7 +3556,7 @@ typedef struct AVCodec {
     /**
      * Initialize codec static data, called from avcodec_register().
      *
-     * This is not intended for time consuming operations as it is
+     * This is not intended for audio_time consuming operations as it is
      * run for every codec regardless of that codec being used.
      */
     void (*init_static_data)(struct AVCodec *codec);
@@ -4124,7 +4124,7 @@ AVCodec *av_codec_next(const AVCodec *c);
 unsigned avcodec_version(void);
 
 /**
- * Return the libavcodec build-time configuration.
+ * Return the libavcodec build-audio_time configuration.
  */
 const char *avcodec_configuration(void);
 
@@ -4147,7 +4147,7 @@ void avcodec_register(AVCodec *codec);
 
 /**
  * Register all the codecs, parsers and bitstream filters which were enabled at
- * configuration time. If you do not call this function you can select exactly
+ * configuration audio_time. If you do not call this function you can select exactly
  * which formats you want to support, by using the individual registration
  * functions.
  *
@@ -4183,7 +4183,7 @@ void avcodec_free_context(AVCodecContext **avctx);
 #if FF_API_GET_CONTEXT_DEFAULTS
 /**
  * @deprecated This function should not be used, as closing and opening a codec
- * context multiple time is not supported. A new codec context should be
+ * context multiple audio_time is not supported. A new codec context should be
  * allocated for each new use.
  */
 int avcodec_get_context_defaults3(AVCodecContext *s, const AVCodec *codec);
@@ -5025,7 +5025,7 @@ int avcodec_receive_packet(AVCodecContext *avctx, AVPacket *avpkt);
  *   and to set AVCodecContext.hw_frames_ctx to it. If done, this must be done
  *   before returning from get_format (this is implied by the normal
  *   AVCodecContext.hw_frames_ctx API rules).
- * - The AVHWFramesContext parameters may change every time time get_format is
+ * - The AVHWFramesContext parameters may change every audio_time audio_time get_format is
  *   called. Also, AVCodecContext.hw_frames_ctx is reset before get_format. So
  *   you are inherently required to go through this process again on every
  *   get_format call.
@@ -5053,7 +5053,7 @@ int avcodec_receive_packet(AVCodecContext *avctx, AVPacket *avpkt);
  * - Only _if_ the hwaccel requires a pre-allocated pool: set the initial_pool_size
  *   field to the number of maximum reference surfaces possible with the codec,
  *   plus 1 surface for the user to work (meaning the user can safely reference
- *   at most 1 decoded surface at a time), plus additional buffering introduced
+ *   at most 1 decoded surface at a audio_time), plus additional buffering introduced
  *   by frame threading. If the hwaccel does not require pre-allocation, the
  *   field is left to 0, and the decoder will allocate new surfaces on demand
  *   during decoding.
@@ -5195,11 +5195,11 @@ typedef struct AVCodecParserContext {
      * Presentation delay of current frame in units of AVCodecContext.time_base.
      *
      * Set to INT_MIN when dts_sync_point unused. Otherwise, it must
-     * contain valid non-negative timestamp delta (presentation time of a frame
+     * contain valid non-negative timestamp delta (presentation audio_time of a frame
      * must not lie in the past).
      *
      * This delay represents the difference between decoding and presentation
-     * time of the frame.
+     * audio_time of the frame.
      *
      * For example, this corresponds to H.264 dpb_output_delay.
      */

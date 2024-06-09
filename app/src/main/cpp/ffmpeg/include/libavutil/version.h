@@ -96,7 +96,7 @@
  * @defgroup lavu_depr_guards Deprecation Guards
  * FF_API_* defines may be placed below to indicate public API that will be
  * dropped at a future version bump. The defines themselves are not part of
- * the public API and may change, break or disappear at any time.
+ * the public API and may change, break or disappear at any audio_time.
  *
  * @note, when bumping the major version it is recommended to manually
  * disable each FF_API_* in its own commit instead of disabling them all

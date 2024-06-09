@@ -1,26 +1,26 @@
 {
   "buildFiles": [
-    "/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/CMakeLists.txt"
+    "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/src/main/cpp/CMakeLists.txt"
   ],
   "cleanCommandsComponents": [
     [
       "/Users/zhangtao/Library/Android/sdk/cmake/3.18.1/bin/ninja",
       "-C",
-      "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
+      "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
       "clean"
     ]
   ],
   "buildTargetsCommandComponents": [
     "/Users/zhangtao/Library/Android/sdk/cmake/3.18.1/bin/ninja",
     "-C",
-    "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
+    "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
     "{LIST_OF_TARGETS_TO_BUILD}"
   ],
   "libraries": {
     "fmplayer::@6890427a1f51a3e7e1df": {
       "artifactName": "fmplayer",
       "abi": "armeabi-v7a",
-      "output": "/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so",
+      "output": "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a/libfmplayer.so",
       "runtimeFiles": []
     }
   }

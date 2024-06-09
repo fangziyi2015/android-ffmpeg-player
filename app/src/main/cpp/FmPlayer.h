@@ -7,6 +7,7 @@
 #include "log4c.h"
 #include "JNICallbackHelper.h"
 #include "video_channel.h"
+#include "audio_channel.h"
 #include <pthread.h>
 
 extern "C" {
@@ -20,6 +21,7 @@ private:
     JNICallbackHelper *helper = nullptr;
     AVFormatContext *formatContext = nullptr;
     VideoChannel *video_channel = nullptr;
+    AudioChannel *audio_channel = nullptr;
 
     pthread_t pid_prepare;
     pthread_t pid_start;

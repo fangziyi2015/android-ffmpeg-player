@@ -42,7 +42,7 @@ rule CXX_SHARED_LIBRARY_LINKER__fmplayer_Debug
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /Users/zhangtao/Library/Android/sdk/cmake/3.18.1/bin/cmake --regenerate-during-build -S/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp -B/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a
+  command = /Users/zhangtao/Library/Android/sdk/cmake/3.18.1/bin/cmake --regenerate-during-build -S/Users/zhangtao/developer/projects/android-ffmpeg-player/app/src/main/cpp -B/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a
   description = Re-running CMake...
   generator = 1
 

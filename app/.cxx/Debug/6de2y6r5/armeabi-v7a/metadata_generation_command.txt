@@ -1,4 +1,4 @@
-                        -H/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp
+                        -H/Users/zhangtao/developer/projects/android-ffmpeg-player/app/src/main/cpp
 -DCMAKE_SYSTEM_NAME=Android
 -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 -DCMAKE_SYSTEM_VERSION=21
@@ -9,10 +9,10 @@
 -DCMAKE_ANDROID_NDK=/Users/zhangtao/Library/Android/sdk/ndk/21.4.7075529
 -DCMAKE_TOOLCHAIN_FILE=/Users/zhangtao/Library/Android/sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake
 -DCMAKE_MAKE_PROGRAM=/Users/zhangtao/Library/Android/sdk/cmake/3.18.1/bin/ninja
--DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a
--DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/Users/zhangtao/developer/projects/FMPlayer/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a
+-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/Users/zhangtao/developer/projects/android-ffmpeg-player/app/build/intermediates/cxx/Debug/6de2y6r5/obj/armeabi-v7a
 -DCMAKE_BUILD_TYPE=Debug
--B/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a
+-B/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a
 -GNinja
                         Build command args: []
                         Version: 2

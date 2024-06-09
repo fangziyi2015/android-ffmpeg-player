@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "FMPlayer"
+rootProject.name = "android-ffmpeg-player"
 include ':app'

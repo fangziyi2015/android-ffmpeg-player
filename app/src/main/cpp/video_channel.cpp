@@ -55,7 +55,6 @@ void VideoChannel::_video_start() {
             break;
         }
 
-        LOGD("视频帧数据获取成功")
         frames.insertData(frame);
         av_packet_unref(packet);
         releaseAVPacket(&packet);

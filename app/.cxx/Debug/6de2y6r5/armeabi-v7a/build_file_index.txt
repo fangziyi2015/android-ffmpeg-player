@@ -1,1 +1,1 @@
-/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp/CMakeLists.txt
+/Users/zhangtao/developer/projects/android-ffmpeg-player/app/src/main/cpp/CMakeLists.txt

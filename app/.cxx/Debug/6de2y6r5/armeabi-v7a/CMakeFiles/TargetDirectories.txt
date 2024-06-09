@@ -1,3 +1,3 @@
-/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/rebuild_cache.dir
-/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/edit_cache.dir
-/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/fmplayer.dir
+/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/fmplayer.dir

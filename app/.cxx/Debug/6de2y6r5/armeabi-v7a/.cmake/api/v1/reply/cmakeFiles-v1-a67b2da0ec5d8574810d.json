@@ -29,7 +29,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeSystem.cmake"
+			"path" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeSystem.cmake"
 		},
 		{
 			"isExternal" : true,
@@ -82,7 +82,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
+			"path" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -121,7 +121,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCXXCompiler.cmake"
+			"path" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCXXCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -265,7 +265,7 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
+			"path" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCCompiler.cmake"
 		},
 		{
 			"isCMake" : true,
@@ -354,14 +354,14 @@
 		},
 		{
 			"isGenerated" : true,
-			"path" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCXXCompiler.cmake"
+			"path" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a/CMakeFiles/3.18.1-g262b901/CMakeCXXCompiler.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",
 	"paths" : 
 	{
-		"build" : "/Users/zhangtao/developer/projects/FMPlayer/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
-		"source" : "/Users/zhangtao/developer/projects/FMPlayer/app/src/main/cpp"
+		"build" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/.cxx/Debug/6de2y6r5/armeabi-v7a",
+		"source" : "/Users/zhangtao/developer/projects/android-ffmpeg-player/app/src/main/cpp"
 	},
 	"version" : 
 	{

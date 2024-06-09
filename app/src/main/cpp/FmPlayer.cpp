@@ -13,6 +13,16 @@ FmPlayer::~FmPlayer() {
         delete helper;
         helper = nullptr;
     }
+
+    if (video_channel) {
+        delete video_channel;
+        video_channel = nullptr;
+    }
+
+    if (audio_channel) {
+        delete audio_channel;
+        audio_channel = nullptr;
+    }
 }
 
 void *prepare_task(void *ptr) {
@@ -36,6 +46,10 @@ void FmPlayer::start() {
 
     if (video_channel) {
         video_channel->start();
+    }
+
+    if (audio_channel) {
+        audio_channel->start();
     }
 
     pthread_create(&pid_start, nullptr, start_task, this);
@@ -132,10 +146,11 @@ void FmPlayer::_prepare() {
             video_channel->setRenderCallback(renderCallback);
         } else if (codec->type == AVMediaType::AVMEDIA_TYPE_AUDIO) {// 音频
             LOGD("当前类型是 音频流\n")
+            audio_channel = new AudioChannel(stream_index, codecContext);
         }
     }// for end
 
-    if (!video_channel) {
+    if (!video_channel && !audio_channel) {
         if (helper) {
             helper->error("没有获取到视频流");
         }
@@ -152,22 +167,23 @@ void FmPlayer::_prepare() {
 void FmPlayer::_start() {
     LOGD("进入解包阶段\n")
     while (isPlaying) {
-
-        if (isPlaying && video_channel->packets.size() > 100) {
+        if (video_channel && video_channel->packets.size() > 100) {
             av_usleep(10 * 1000);
             continue;
         }
 
-        if (!isPlaying) {
-            break;
+        if (audio_channel && audio_channel->packets.size() > 100) {
+            av_usleep(10 * 1000);
+            continue;
         }
 
         AVPacket *packet = av_packet_alloc();
         int ret = av_read_frame(formatContext, packet);
         if (ret == AVERROR_EOF) {
             LOGI("已经读取到文件的末尾了")
-            if (video_channel->packets.empty()) {
-                LOGI("已经没有包了，退出循环")
+            if (video_channel && video_channel->packets.empty() &&
+                audio_channel && audio_channel->packets.empty()) {
+                LOGE("已经没有包了，退出循环")
                 break;
             }
         } else if (ret < 0) {
@@ -176,12 +192,14 @@ void FmPlayer::_start() {
         }
 
         if (video_channel && video_channel->stream_index == packet->stream_index) {
-            LOGI("获取到的是视频流的包")
             video_channel->packets.insertData(packet);
+        } else if (audio_channel && audio_channel->stream_index == packet->stream_index) {
+            audio_channel->packets.insertData(packet);
         }
     }
 
     isPlaying = STOP;
+    LOGI("包解析完成")
 }
 
 

@@ -65,7 +65,7 @@ jlong FmPlayer::getDuration() {
     return duration;
 }
 
-void FmPlayer::seek(jint progress) {
+void FmPlayer::seek(int progress) {
     if (progress < 0 || progress > duration) {
         return;
     }
@@ -81,7 +81,7 @@ void FmPlayer::seek(jint progress) {
     pthread_mutex_lock(&seek_mutex_t);
     int timestamp = progress;
     LOGI("progress timestamp:%d\n", timestamp)
-    int ret = av_seek_frame(formatContext, -1, timestamp * AV_TIME_BASE, AVSEEK_FLAG_FRAME);
+    int ret = av_seek_frame(formatContext, -1, progress * AV_TIME_BASE, AVSEEK_FLAG_FRAME);
     if (ret < 0) {
         LOGE("进度设置失败，error:%s\n", av_err2str(ret))
         pthread_mutex_unlock(&seek_mutex_t);

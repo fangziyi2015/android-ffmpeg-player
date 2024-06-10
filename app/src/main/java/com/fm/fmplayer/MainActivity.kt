@@ -98,10 +98,10 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            isTouch = false
-        },2000)
-
+//        Handler(Looper.getMainLooper()).postDelayed({
+//
+//        },2000)
+        isTouch = false
         seekBar?.let {
             val progress = it.progress * duration.toInt() / 100
             Log.i(TAG, "onStartTrackingTouch: ${it.progress},progress:$progress")

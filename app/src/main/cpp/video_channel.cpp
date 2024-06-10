@@ -156,6 +156,7 @@ void VideoChannel::_video_play() {
             }
         } else {
             LOGI("百分百同步")
+            av_usleep(real_delay * 1000000);
         }
 
         if (renderCallback) {

@@ -63,6 +63,10 @@ Java_com_fm_fmplayer_FmPlayer_startNative(JNIEnv *env, jobject thiz, jlong nativ
 extern "C"
 JNIEXPORT void JNICALL
 Java_com_fm_fmplayer_FmPlayer_stopNative(JNIEnv *env, jobject thiz, jlong native_obj) {
+    auto *player = reinterpret_cast<FmPlayer *>(native_obj);
+    if (player) {
+        player->stop();
+    }
 }
 
 extern "C"
@@ -88,10 +92,10 @@ Java_com_fm_fmplayer_FmPlayer_bindSurfaceView(JNIEnv *env, jobject thiz, jlong n
 
 extern "C"
 JNIEXPORT jlong JNICALL
-Java_com_fm_fmplayer_FmPlayer_durationNative(JNIEnv *env, jobject thiz,jlong native_obj) {
+Java_com_fm_fmplayer_FmPlayer_durationNative(JNIEnv *env, jobject thiz, jlong native_obj) {
     auto *player = reinterpret_cast<FmPlayer *>(native_obj);
-    if (player){
-       return player->getDuration();
+    if (player) {
+        return player->getDuration();
     }
     return 0;
 }
@@ -101,8 +105,8 @@ JNIEXPORT void JNICALL
 Java_com_fm_fmplayer_FmPlayer_seekNative(JNIEnv *env, jobject thiz, jlong native_obj,
                                          jint progress) {
     auto *player = reinterpret_cast<FmPlayer *>(native_obj);
-    if (player){
-        LOGI("progress:%d\n",progress)
+    if (player) {
+        LOGI("progress:%d\n", progress)
         player->seek(progress);
     }
 }

@@ -7,6 +7,7 @@
 #include "safe_queue.h"
 #include "log4c.h"
 #include "JNICallbackHelper.h"
+#include "util.h"
 
 extern "C" {
 #include "libavformat/avformat.h"

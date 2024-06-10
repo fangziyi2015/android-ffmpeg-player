@@ -1,5 +1,6 @@
 #include "FmPlayer.h"
 
+
 FmPlayer::FmPlayer(const char *dataSource, JNICallbackHelper *helper,
                    RenderCallback _renderCallback)
         : data_source(dataSource),
@@ -10,20 +11,19 @@ FmPlayer::FmPlayer(const char *dataSource, JNICallbackHelper *helper,
 }
 
 FmPlayer::~FmPlayer() {
-    if (helper) {
-        delete helper;
-        helper = nullptr;
+
+    LOGI("FmPlayer 释放资源\n")
+    if (formatContext) {
+        avformat_close_input(&formatContext);
+        avformat_free_context(formatContext);
+        formatContext = nullptr;
     }
 
-    if (video_channel) {
-        delete video_channel;
-        video_channel = nullptr;
-    }
+    DELETE(helper)
+    DELETE(video_channel)
+    DELETE(audio_channel)
 
-    if (audio_channel) {
-        delete audio_channel;
-        audio_channel = nullptr;
-    }
+    DELETE(data_source)
 
     pthread_mutex_destroy(&seek_mutex_t);
 }
@@ -79,8 +79,6 @@ void FmPlayer::seek(int progress) {
     }
 
     pthread_mutex_lock(&seek_mutex_t);
-    int timestamp = progress;
-    LOGI("progress timestamp:%d\n", timestamp)
     int ret = av_seek_frame(formatContext, -1, progress * AV_TIME_BASE, AVSEEK_FLAG_FRAME);
     if (ret < 0) {
         LOGE("进度设置失败，error:%s\n", av_err2str(ret))
@@ -109,8 +107,14 @@ void FmPlayer::seek(int progress) {
     pthread_mutex_unlock(&seek_mutex_t);
 }
 
+void *stop_task(void *ptr) {
+    auto *player = static_cast<FmPlayer *>(ptr);
+    player->_stop(player);
+    return nullptr;
+}
+
 void FmPlayer::stop() {
-    isPlaying = STOP;
+    pthread_create(&pid_stop, nullptr, stop_task, this);
 }
 
 void FmPlayer::release() {
@@ -131,6 +135,7 @@ void FmPlayer::_prepare() {
             helper->error(av_err2str(ret));
         }
         LOGE("文件打开失败\n")
+        avformat_close_input(&formatContext);
         return;
     }
 
@@ -141,13 +146,17 @@ void FmPlayer::_prepare() {
             helper->error(av_err2str(ret));
         }
         LOGE("读取流信息失败\n")
+        avformat_close_input(&formatContext);
         return;
     }
+
     if (formatContext) {
         // 需要除以时间机
         duration = formatContext->duration / AV_TIME_BASE;
         LOGI("视频总时长：%ld\n", duration)
     }
+
+    AVCodecContext *codecContext = nullptr;
 
     for (int stream_index = 0; stream_index < formatContext->nb_streams; ++stream_index) {
         AVStream *stream = formatContext->streams[stream_index];
@@ -172,13 +181,19 @@ void FmPlayer::_prepare() {
                 helper->error("解码器获取失败");
             }
             LOGE("解码器获取失败\n")
+            avformat_close_input(&formatContext);
+            return;
         }
-        AVCodecContext *codecContext = avcodec_alloc_context3(codec);
+
+        codecContext = avcodec_alloc_context3(codec);
         if (!codecContext) {
             if (helper) {
                 helper->error("解码器上下文创建失败");
             }
             LOGE("解码器上下文创建失败\n")
+            avcodec_free_context(&codecContext);
+            avformat_close_input(&formatContext);
+            return;
         }
 
         ret = avcodec_parameters_to_context(codecContext, parameters);
@@ -187,6 +202,8 @@ void FmPlayer::_prepare() {
                 helper->error(av_err2str(ret));
             }
             LOGE("解码器上下文参数设置失败\n")
+            avcodec_free_context(&codecContext);
+            avformat_close_input(&formatContext);
             return;
         }
 
@@ -196,6 +213,8 @@ void FmPlayer::_prepare() {
                 helper->error(av_err2str(ret));
             }
             LOGE("解码器打开失败\n")
+            avcodec_free_context(&codecContext);
+            avformat_close_input(&formatContext);
             return;
         }
 
@@ -216,11 +235,16 @@ void FmPlayer::_prepare() {
             LOGI("视频的fps:%d\n", fps)
             video_channel = new VideoChannel(stream_index, codecContext, time_base, fps);
             video_channel->setRenderCallback(renderCallback);
-            video_channel->setJNICallbackHelper(helper);
+            if (duration != 0) {
+                video_channel->setJNICallbackHelper(helper);
+            }
         } else if (codec->type == AVMediaType::AVMEDIA_TYPE_AUDIO) {// 音频
             LOGD("当前类型是 音频流\n")
             audio_channel = new AudioChannel(stream_index, codecContext, time_base);
-            audio_channel->setJNICallbackHelper(helper);
+            if (duration != 0) {
+                audio_channel->setJNICallbackHelper(helper);
+            }
+
         }
     }// for end
 
@@ -229,6 +253,10 @@ void FmPlayer::_prepare() {
             helper->error("没有获取到视频流");
         }
         LOGE("没有获取到视频流\n")
+        if (codecContext) {
+            avcodec_free_context(&codecContext);
+        }
+        avformat_close_input(&formatContext);
         return;
     }
 
@@ -273,7 +301,19 @@ void FmPlayer::_start() {
     }
 
     isPlaying = STOP;
-    LOGI("包解析完成")
+    if (video_channel){
+        video_channel->stop();
+    }
+    if (audio_channel){
+        audio_channel->stop();
+    }
+}
+
+void FmPlayer::_stop(FmPlayer *player) {
+    isPlaying = STOP;
+    pthread_join(pid_prepare, nullptr);
+    pthread_join(pid_start, nullptr);
+    DELETE(player)
 }
 
 

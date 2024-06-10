@@ -19,13 +19,18 @@ class VideoChannel : public BaseChannel {
 private:
     pthread_t pid_video_start;
     pthread_t pid_video_play;
+    pthread_t pid_video_stop;
     RenderCallback renderCallback;
     AudioChannel *audio_channel;
     int fps;
 public:
     VideoChannel(int streamIndex, AVCodecContext *codecContext,AVRational time_base,int fps);
 
+    virtual ~VideoChannel();
+
     void start();
+
+    void stop();
 
     void setRenderCallback(RenderCallback _renderCallback);
 
@@ -34,6 +39,10 @@ public:
     void _video_play();
 
     void setAudioChannel(AudioChannel *audio_channel);
+
+    void _stop(VideoChannel *video_channel);
+
+
 };
 
 

@@ -23,8 +23,9 @@ public:
     int out_buffer_size = 0;
     ::uint8_t *out_buffer = nullptr;
 
-    pthread_t pid_start = 0L;
-    pthread_t pid_play = 0L;
+    pthread_t pid_audio_start = 0L;
+    pthread_t pid_audio_play = 0L;
+    pthread_t pid_audio_stop = 0L;
 
     SwrContext *swr_ctx = nullptr;
 
@@ -45,13 +46,15 @@ public:
 
     void start();
 
+    void stop();
 
     void _start();
 
     void _play();
 
-
     SLint32 get_pcm_data_size();
+
+    void _stop(AudioChannel *audio_channel);
 };
 
 

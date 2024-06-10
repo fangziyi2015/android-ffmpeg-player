@@ -33,17 +33,15 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         fmPlayer = FmPlayer().apply {
+            // 直播地址
+            // rtmp://liteavapp.qcloud.com/live/liteavdemoplayerstreamid
             dataSource = File(Environment.getExternalStorageDirectory(), "trailer.mp4").absolutePath
-//            dataSource = File(Environment.getExternalStorageDirectory(),"sample.mp4").absolutePath
             // 直播测试地址
-//            dataSource = "rtmp://liteavapp.qcloud.com/live/liteavdemoplayerstreamid"
             lifecycle.addObserver(this)
             prepareCallback = {
                 duration = this.getDuration()
                 Log.i(TAG, "视频总时长，duration: $duration")
                 runOnUiThread {
-//                    binding.seekbar.max = duration.toInt()
-//                    binding.seekbar.max = 100
                     binding.tvStatusInfo.text = "初始化成功"
                     if (duration > 0) {
                         durationFormat = TimeFormatUtil.convertSecondsToTimeFormat(
@@ -60,18 +58,20 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
 
             progressCallback = { progress ->
                 if (!isTouch) {
-                    runOnUiThread {
-                        binding.tvTime.text =
-                            TimeFormatUtil.convertSecondsToTimeFormat(progress) + "/" + durationFormat
-
-                        Log.i(TAG, "progress 设置完后progressCallback: $progress")
-                        val realProgress = progress.toInt() * 100 / duration.toInt()
-                        Log.i(TAG, "progress realProgress progressCallback: $realProgress")
-                        binding.seekbar.progress = realProgress
+                    // 严谨性，判断一下
+                    if (duration != 0L){
+                        runOnUiThread {
+                            binding.tvTime.text =
+                                TimeFormatUtil.convertSecondsToTimeFormat(progress) + "/" + durationFormat
+                            val realProgress = progress.toInt() * 100 / duration.toInt()
+                            binding.seekbar.progress = realProgress
+                        }
                     }
+
                 }
             }
 
+            // 状态信息
             errorCallback = { msg ->
                 runOnUiThread {
                     binding.tvStatusInfo.text = msg
@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        // 用户手动拖动时更新
         if (fromUser) {
             val realProgress = progress * duration.toInt() / 100
             binding.tvTime.text =
@@ -98,16 +99,12 @@ class MainActivity : AppCompatActivity(), OnSeekBarChangeListener {
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//        Handler(Looper.getMainLooper()).postDelayed({
-//
-//        },2000)
         isTouch = false
+        // 手松开后seek to dst position
         seekBar?.let {
             val progress = it.progress * duration.toInt() / 100
-            Log.i(TAG, "onStartTrackingTouch: ${it.progress},progress:$progress")
             fmPlayer.seek(progress)
         }
     }
-
 
 }

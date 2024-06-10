@@ -9,6 +9,7 @@
 #include "video_channel.h"
 #include "audio_channel.h"
 #include <pthread.h>
+#include "util.h"
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -25,6 +26,7 @@ private:
 
     pthread_t pid_prepare;
     pthread_t pid_start;
+    pthread_t pid_stop;
 
     bool isPlaying = STOP;
 
@@ -72,6 +74,10 @@ public:
     jlong getDuration();
 
     void seek(int progress);
+
+    void _stop(FmPlayer *player);
+
+
 };
 
 

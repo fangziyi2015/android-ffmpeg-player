@@ -63,7 +63,8 @@ class FmPlayer : SurfaceHolder.Callback, LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun release() {
         Log.i(TAG, "release: ")
-        releaseNative(nativeObj)
+//        releaseNative(nativeObj)
+        stopNative(nativeObj)
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {

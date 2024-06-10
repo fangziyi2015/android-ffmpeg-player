@@ -1,5 +1,6 @@
 #include "audio_channel.h"
 
+
 AudioChannel::AudioChannel(int streamIndex, AVCodecContext *codecContext, AVRational time_base)
         : BaseChannel(streamIndex,
                       codecContext, time_base) {
@@ -40,14 +41,20 @@ void *audio_play_task(void *ptr) {
     return nullptr;
 }
 
+void *audio_stop_task(void *ptr) {
+    auto *channel = static_cast<AudioChannel *>(ptr);
+    channel->_stop(channel);
+    return nullptr;
+}
+
 void AudioChannel::start() {
     isPlaying = PLAYING;
     packets.setWork(1);
     frames.setWork(1);
 
-    pthread_create(&pid_start, nullptr, audio_start_task, this);
+    pthread_create(&pid_audio_start, nullptr, audio_start_task, this);
 
-    pthread_create(&pid_play, nullptr, audio_play_task, this);
+    pthread_create(&pid_audio_play, nullptr, audio_play_task, this);
 }
 
 void AudioChannel::_start() {
@@ -303,11 +310,8 @@ SLint32 AudioChannel::get_pcm_data_size() {
 
         // 在这里计算音频的time_base
         audio_time = frame->best_effort_timestamp * av_q2d(time_base);
-        LOGI("音频进度  best_effort_timestamp：%lld   av_q2d(time_base): %lf audio_time: %lf\n",
-             frame->best_effort_timestamp, av_q2d(time_base), audio_time)
         if (helper) {
             long progress = static_cast<long>(audio_time) + 1;
-            //LOGI("音频进度：%ld\n",progress)
             helper->onProgress(progress);
         }
         break;
@@ -318,6 +322,7 @@ SLint32 AudioChannel::get_pcm_data_size() {
 }
 
 AudioChannel::~AudioChannel() {
+
     if (out_buffer) {
         ::free(out_buffer);
         out_buffer = nullptr;
@@ -327,6 +332,51 @@ AudioChannel::~AudioChannel() {
         swr_free(&swr_ctx);
         swr_ctx = nullptr;
     }
+
+}
+
+void AudioChannel::stop() {
+    pthread_create(&pid_audio_stop, nullptr, audio_stop_task, this);
+}
+
+void AudioChannel::_stop(AudioChannel *audio_channel) {
+    isPlaying = STOP;
+    packets.setWork(0);
+    frames.setWork(0);
+
+    pthread_join(pid_audio_start, nullptr);
+    pthread_join(pid_audio_play, nullptr);
+
+    // 7.1 设置停止状态
+    if (playerInterface) {
+        (*playerInterface)->SetPlayState(playerInterface, SL_PLAYSTATE_STOPPED);
+        playerInterface = nullptr;
+    }
+
+    // 7.2 销毁播放器
+    if (audioPlayer) {
+        (*audioPlayer)->Destroy(audioPlayer);
+        audioPlayer = nullptr;
+        playerQueueInterface = nullptr;
+    }
+
+    // 7.3 销毁混音器
+    if (outputMixInterface) {
+        (*outputMixInterface)->Destroy(outputMixInterface);
+        outputMixInterface = nullptr;
+    }
+
+    // 7.4 销毁引擎
+    if (audio_engine) {
+        (*audio_engine)->Destroy(audio_engine);
+        audio_engine = nullptr;
+        audio_engine_ift = nullptr;
+    }
+
+    frames.release();
+    packets.release();
+
+    DELETE(audio_channel)
 }
 
 void playCallback(SLAndroidSimpleBufferQueueItf bq, void *ptr) {

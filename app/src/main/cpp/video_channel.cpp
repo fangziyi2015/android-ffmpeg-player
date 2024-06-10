@@ -30,6 +30,10 @@ VideoChannel::VideoChannel(int streamIndex, AVCodecContext *codecContext, AVRati
     packets.setSyncCallback(removeAVPacket);
 }
 
+VideoChannel::~VideoChannel() {
+    DELETE(audio_channel)
+}
+
 void *video_start_task(void *ptr) {
     auto *channel = static_cast<VideoChannel *>(ptr);
     channel->_video_start();
@@ -39,6 +43,12 @@ void *video_start_task(void *ptr) {
 void *video_play_task(void *ptr) {
     auto *channel = static_cast<VideoChannel *>(ptr);
     channel->_video_play();
+    return nullptr;
+}
+
+void *video_stop_task(void *ptr) {
+    auto *channel = static_cast<VideoChannel *>(ptr);
+    channel->_stop(channel);
     return nullptr;
 }
 
@@ -182,4 +192,22 @@ void VideoChannel::setRenderCallback(RenderCallback _renderCallback) {
 
 void VideoChannel::setAudioChannel(AudioChannel *_audio_channel) {
     this->audio_channel = _audio_channel;
+}
+
+void VideoChannel::stop() {
+    pthread_create(&pid_video_stop, nullptr, video_stop_task, this);
+}
+
+void VideoChannel::_stop(VideoChannel *video_channel) {
+    isPlaying = STOP;
+    packets.setWork(0);
+    frames.setWork(0);
+
+    pthread_join(pid_video_start, nullptr);
+    pthread_join(pid_video_play, nullptr);
+
+    frames.release();
+    packets.release();
+
+    DELETE(video_channel)
 }

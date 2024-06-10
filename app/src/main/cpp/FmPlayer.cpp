@@ -79,6 +79,13 @@ void FmPlayer::seek(int progress) {
     }
 
     pthread_mutex_lock(&seek_mutex_t);
+    /**
+     * 1.formatContext 安全问题
+     * 2.-1 代表默认情况，FFmpeg自动选择 音频 还是 视频 做 seek，  模糊：0视频  1音频
+     * 3. AVSEEK_FLAG_ANY（老实） 直接精准到 拖动的位置，问题：如果不是关键帧，B帧 可能会造成 花屏情况
+     *    AVSEEK_FLAG_BACKWARD（则优  8的位置 B帧 ， 找附件的关键帧 6，如果找不到他也会花屏）
+     *    AVSEEK_FLAG_FRAME 找关键帧（非常不准确，可能会跳的太多），一般不会直接用，但是会配合用
+     */
     int ret = av_seek_frame(formatContext, -1, progress * AV_TIME_BASE, AVSEEK_FLAG_FRAME);
     if (ret < 0) {
         LOGE("进度设置失败，error:%s\n", av_err2str(ret))

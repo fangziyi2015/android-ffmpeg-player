@@ -84,3 +84,25 @@ Java_com_fm_fmplayer_FmPlayer_bindSurfaceView(JNIEnv *env, jobject thiz, jlong n
     window = ANativeWindow_fromSurface(env, surface);
     pthread_mutex_unlock(&mutex_t);
 }
+
+
+extern "C"
+JNIEXPORT jlong JNICALL
+Java_com_fm_fmplayer_FmPlayer_durationNative(JNIEnv *env, jobject thiz,jlong native_obj) {
+    auto *player = reinterpret_cast<FmPlayer *>(native_obj);
+    if (player){
+       return player->getDuration();
+    }
+    return 0;
+}
+
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_fm_fmplayer_FmPlayer_seekNative(JNIEnv *env, jobject thiz, jlong native_obj,
+                                         jint progress) {
+    auto *player = reinterpret_cast<FmPlayer *>(native_obj);
+    if (player){
+        LOGI("progress:%d\n",progress)
+        player->seek(progress);
+    }
+}

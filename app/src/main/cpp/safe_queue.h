@@ -39,8 +39,14 @@ public:
 
     void insertData(T value) {
         pthread_mutex_lock(&mutex_t);
-        data.push(value);
-        pthread_cond_signal(&cond_t);
+        if (working) {
+            data.push(value);
+            pthread_cond_signal(&cond_t);
+        } else{
+            if (releaseCallback){
+                releaseCallback(&value);
+            }
+        }
         pthread_mutex_unlock(&mutex_t);
     }
 
@@ -74,7 +80,10 @@ public:
     }
 
     void setWork(int _work) {
+        pthread_mutex_lock(&mutex_t);
         this->working = _work;
+        pthread_cond_signal(&cond_t);
+        pthread_mutex_unlock(&mutex_t);
     }
 
     void setReleaseCallback(ReleaseCallback _releaseCallback) {
@@ -94,15 +103,17 @@ public:
     }
 
     void release() {
+        pthread_mutex_lock(&mutex_t);
         if (!data.empty()) {
             for (int i = 0; i < size(); ++i) {
                 T value = data.front();
-                data.pop();
                 if (releaseCallback) {
                     releaseCallback(&value);
                 }
+                data.pop();
             }
         }
+        pthread_mutex_unlock(&mutex_t);
     }
 };
 

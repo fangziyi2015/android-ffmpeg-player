@@ -20,4 +20,13 @@ JNICallbackHelper::JNICallbackHelper(JavaVM *vm, JNIEnv *env, jobject job) : vm(
     jclass cls = env->GetObjectClass(this->job);
     errorMethodId = env->GetMethodID(cls, "onErrorJNICallback", "(Ljava/lang/String;)V");
     prepareMethodId = env->GetMethodID(cls, "onPrepareJNICallback", "()V");
+    progressMethodId = env->GetMethodID(cls, "onProgressCallback", "(J)V");
+}
+
+void JNICallbackHelper::onProgress(long progress) {
+    JNIEnv *env;
+    vm->AttachCurrentThread(&env, nullptr);
+    jlong jprogress = progress;
+    env->CallVoidMethod(job, progressMethodId, jprogress);
+    vm->DetachCurrentThread();
 }

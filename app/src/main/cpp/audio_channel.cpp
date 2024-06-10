@@ -303,8 +303,13 @@ SLint32 AudioChannel::get_pcm_data_size() {
 
         // 在这里计算音频的time_base
         audio_time = frame->best_effort_timestamp * av_q2d(time_base);
-        LOGI("音频的时间戳：%lf\n", audio_time)
-
+        LOGI("音频进度  best_effort_timestamp：%lld   av_q2d(time_base): %lf audio_time: %lf\n",
+             frame->best_effort_timestamp, av_q2d(time_base), audio_time)
+        if (helper) {
+            long progress = static_cast<long>(audio_time) + 1;
+            //LOGI("音频进度：%ld\n",progress)
+            helper->onProgress(progress);
+        }
         break;
     }
     av_frame_unref(frame);

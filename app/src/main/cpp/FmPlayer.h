@@ -29,6 +29,9 @@ private:
     bool isPlaying = STOP;
 
     RenderCallback renderCallback;
+    long duration;
+
+    pthread_mutex_t seek_mutex_t;
 
 public:
     FmPlayer(const char *dataSource, JNICallbackHelper *helper,RenderCallback _renderCallback);
@@ -66,6 +69,9 @@ public:
     void _start();
 
 
+    jlong getDuration();
+
+    void seek(int progress);
 };
 
 

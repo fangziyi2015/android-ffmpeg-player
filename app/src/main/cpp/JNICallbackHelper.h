@@ -10,6 +10,7 @@ private:
 
     jmethodID errorMethodId;
     jmethodID prepareMethodId;
+    jmethodID progressMethodId;
 
 public:
     JNICallbackHelper(JavaVM *vm, JNIEnv *env, jobject job);
@@ -17,6 +18,8 @@ public:
     void error(char *msg);
 
     void prepare();
+
+    void onProgress(long progress);
 };
 
 

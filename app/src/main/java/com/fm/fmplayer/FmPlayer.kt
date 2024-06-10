@@ -21,6 +21,7 @@ class FmPlayer : SurfaceHolder.Callback, LifecycleObserver {
 
     var prepareCallback: (() -> Unit)? = null
     var errorCallback: ((String) -> Unit)? = null
+    var progressCallback: ((Long) -> Unit)? = null
 
     var dataSource: String = ""
 
@@ -33,6 +34,14 @@ class FmPlayer : SurfaceHolder.Callback, LifecycleObserver {
 
         surfaceHolder = surfaceView.holder
         surfaceHolder?.addCallback(this)
+    }
+
+    fun getDuration(): Long {
+        return durationNative(nativeObj)
+    }
+
+    fun seek(progress: Int) {
+        seekNative(nativeObj, progress)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -82,10 +91,19 @@ class FmPlayer : SurfaceHolder.Callback, LifecycleObserver {
         errorCallback?.invoke(error)
     }
 
+    /**
+     * 当前进度回调
+     */
+    fun onProgressCallback(progress: Long) {
+        progressCallback?.invoke(progress)
+    }
+
     private external fun prepareNative(dataSource: String): Long
     private external fun startNative(nativeObj: Long)
     private external fun stopNative(nativeObj: Long)
     private external fun releaseNative(nativeObj: Long)
     private external fun bindSurfaceView(nativeObj: Long, surface: Surface)
+    private external fun durationNative(nativeObj: Long): Long
+    private external fun seekNative(nativeObj: Long, progress: Int)
 
 }

@@ -6,6 +6,7 @@
 
 #include "safe_queue.h"
 #include "log4c.h"
+#include "JNICallbackHelper.h"
 
 extern "C" {
 #include "libavformat/avformat.h"
@@ -24,6 +25,7 @@ public:
     // 需要同步，同步需要时间基 time_base
     AVRational time_base;
 
+    JNICallbackHelper *helper;
 
 public:
     BaseChannel(int streamIndex,
@@ -42,6 +44,10 @@ public:
         if (codecContext) {
             avcodec_free_context(&codecContext);
         }
+    }
+
+    void setJNICallbackHelper(JNICallbackHelper *_helper) {
+        this->helper = _helper;
     }
 
     static void releaseAVPacket(AVPacket **packet) {

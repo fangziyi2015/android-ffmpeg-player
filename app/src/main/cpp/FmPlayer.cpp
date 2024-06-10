@@ -6,6 +6,7 @@ FmPlayer::FmPlayer(const char *dataSource, JNICallbackHelper *helper,
           helper(helper),
           renderCallback(_renderCallback) {
 
+    pthread_mutex_init(&seek_mutex_t, nullptr);
 }
 
 FmPlayer::~FmPlayer() {
@@ -23,6 +24,8 @@ FmPlayer::~FmPlayer() {
         delete audio_channel;
         audio_channel = nullptr;
     }
+
+    pthread_mutex_destroy(&seek_mutex_t);
 }
 
 void *prepare_task(void *ptr) {
@@ -58,6 +61,54 @@ void FmPlayer::start() {
     pthread_create(&pid_start, nullptr, start_task, this);
 }
 
+jlong FmPlayer::getDuration() {
+    return duration;
+}
+
+void FmPlayer::seek(jint progress) {
+    if (progress < 0 || progress > duration) {
+        return;
+    }
+
+    if (!video_channel && !audio_channel) {
+        return;
+    }
+
+    if (!formatContext) {
+        return;
+    }
+
+    pthread_mutex_lock(&seek_mutex_t);
+    int timestamp = progress;
+    LOGI("progress timestamp:%d\n", timestamp)
+    int ret = av_seek_frame(formatContext, -1, timestamp * AV_TIME_BASE, AVSEEK_FLAG_FRAME);
+    if (ret < 0) {
+        LOGE("进度设置失败，error:%s\n", av_err2str(ret))
+        pthread_mutex_unlock(&seek_mutex_t);
+        return;
+    }
+
+    if (audio_channel) {
+        audio_channel->packets.setWork(0);
+        audio_channel->frames.setWork(0);
+        audio_channel->packets.release();
+        audio_channel->frames.release();
+        audio_channel->packets.setWork(1);
+        audio_channel->frames.setWork(1);
+    }
+
+    if (video_channel) {
+        video_channel->packets.setWork(0);
+        video_channel->frames.setWork(0);
+        video_channel->packets.release();
+        video_channel->frames.release();
+        video_channel->packets.setWork(1);
+        video_channel->frames.setWork(1);
+    }
+
+    pthread_mutex_unlock(&seek_mutex_t);
+}
+
 void FmPlayer::stop() {
     isPlaying = STOP;
 }
@@ -91,6 +142,11 @@ void FmPlayer::_prepare() {
         }
         LOGE("读取流信息失败\n")
         return;
+    }
+    if (formatContext) {
+        // 需要除以时间机
+        duration = formatContext->duration / AV_TIME_BASE;
+        LOGI("视频总时长：%ld\n", duration)
     }
 
     for (int stream_index = 0; stream_index < formatContext->nb_streams; ++stream_index) {
@@ -160,9 +216,11 @@ void FmPlayer::_prepare() {
             LOGI("视频的fps:%d\n", fps)
             video_channel = new VideoChannel(stream_index, codecContext, time_base, fps);
             video_channel->setRenderCallback(renderCallback);
+            video_channel->setJNICallbackHelper(helper);
         } else if (codec->type == AVMediaType::AVMEDIA_TYPE_AUDIO) {// 音频
             LOGD("当前类型是 音频流\n")
             audio_channel = new AudioChannel(stream_index, codecContext, time_base);
+            audio_channel->setJNICallbackHelper(helper);
         }
     }// for end
 
